@@ -13,7 +13,8 @@ terraform {
 
 provider "azurerm" {
   features {}
-  subscription_id = var.customer_subscription_id
+  subscription_id     = var.customer_subscription_id
+  storage_use_azuread = true
 }
 
 provider "github" {
