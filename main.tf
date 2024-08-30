@@ -36,7 +36,7 @@ resource "azurerm_storage_account" "state" {
   access_tier              = "Cool"
 
   min_tls_version                 = "TLS1_2"
-  enable_https_traffic_only       = true
+  https_traffic_only_enabled      = true
   shared_access_key_enabled       = false
   public_network_access_enabled   = true
   default_to_oauth_authentication = true
