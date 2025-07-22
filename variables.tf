@@ -30,6 +30,24 @@ variable "customer_subscription_id" {
   }
 }
 
+variable "deploy_storage" {
+  description = "Whether to deploy the storage account for Terraform state"
+  type        = bool
+  default     = true
+}
+
+variable "deploy_policy_identity" {
+  description = "Whether to deploy the policy managed identity"
+  type        = bool
+  default     = true
+}
+
+variable "deploy_vm_identity" {
+  description = "Whether to deploy the VM managed identity"
+  type        = bool
+  default     = true
+}
+
 variable "customer_subscription_name" {
   description = "Cosmetic name for the Azure subscription. For Azure Landing Zone, the Management subscription is recommended."
   default     = "Management"

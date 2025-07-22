@@ -25,6 +25,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_storage_account" "state" {
+  count               = var.deploy_storage ? 1 : 0
   name                = local.storage_account_name
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
@@ -55,8 +56,9 @@ resource "azurerm_storage_account" "state" {
 }
 
 resource "azurerm_storage_container" "state" {
+  count                 = var.deploy_storage ? 1 : 0
   name                  = "cdmonitoring-tfstate"
-  storage_account_name  = azurerm_storage_account.state.name
+  storage_account_name  = azurerm_storage_account.state[0].name
   container_access_type = "private"
 
   depends_on = [
@@ -85,6 +87,7 @@ resource "azurerm_federated_identity_credential" "github" {
 
 // For optional use in policy assignments. Better naming convention than the system generated name.
 resource "azurerm_user_assigned_identity" "policy" {
+  count               = var.deploy_policy_identity ? 1 : 0
   name                = "id-cdmonitoring-policy-prod-${local.region_short}-001"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
@@ -92,47 +95,38 @@ resource "azurerm_user_assigned_identity" "policy" {
 
 // Managed Identity assigned to VMs with no permissions for AMA Agent deployment through Policy Initiative
 resource "azurerm_user_assigned_identity" "vm" {
+  count               = var.deploy_vm_identity ? 1 : 0
   name                = "id-cdmonitoring-vm-prod-${local.region_short}-001"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 }
 
-
-
 // RBAC role assignments
 
 resource "azurerm_role_assignment" "resource_group" {
-  for_each             = toset(var.rbac ? ["Azure Deployment Stack Owner", "Monitoring Contributor", "Storage Blob Data Contributor"] : [])
+  for_each = toset(
+    var.rbac ? (
+      var.deploy_storage ?
+      ["Azure Deployment Stack Owner", "Monitoring Contributor", "Storage Blob Data Contributor"] :
+      ["Azure Deployment Stack Owner", "Monitoring Contributor"]
+    ) : []
+  )
+
   scope                = azurerm_resource_group.rg.id
   role_definition_name = each.value
   principal_id         = azurerm_user_assigned_identity.github.principal_id
 }
 
-
 resource "azurerm_role_assignment" "workspace" {
-  for_each             = toset(var.rbac ? ["Contributor"] : [])
+  for_each             = toset(var.rbac ? ["Monitoring Contributor"] : [])
   scope                = var.workspace_id
   role_definition_name = each.value
   principal_id         = azurerm_user_assigned_identity.github.principal_id
 }
 
 // Github Actions - Variables
-
 resource "github_actions_variable" "github" {
-  for_each = {
-    "TENANT_ID"                     = var.customer_tenant_id,
-    "SUBSCRIPTION_ID"               = var.customer_subscription_id,
-    "RESOURCE_GROUP_NAME"           = azurerm_resource_group.rg.name,
-    "STORAGE_ACCOUNT_NAME"          = azurerm_storage_account.state.name,
-    "LOCATION"                      = var.location,
-    "WORKSPACE_SUBSCRIPTION_ID"     = split("/", var.workspace_id)[2],
-    "WORKSPACE_RESOURCE_GROUP_NAME" = split("/", var.workspace_id)[4],
-    "WORKSPACE_NAME"                = split("/", var.workspace_id)[8],
-    "WORKSPACE_ID"                  = var.workspace_id,
-    "MASTER_TEMPLATES_GIT_ORG"      = "Cloud-Direct-Monitoring",
-    "MASTER_TEMPLATES_GIT_REPO"     = "cd-monitoring-azure-templates",
-    "MASTER_TEMPLATES_GIT_BRANCH"   = "main"
-  }
+  for_each = local.github_actions_variables
 
   repository    = var.cd_github_repo_name
   variable_name = each.key
@@ -172,8 +166,8 @@ resource "github_actions_secret" "known_hosts" {
 }
 
 //Github Repository Files
-
 resource "github_repository_file" "tfvars" {
+  count                 = var.deploy_storage ? 1 : 0
   repository          = var.cd_github_repo_name
   branch              = "main"
   file                = "terraform/bootstrap.auto.tfvars"
@@ -182,7 +176,7 @@ resource "github_repository_file" "tfvars" {
   content = <<-EOF
   subscription_id               = "${var.customer_subscription_id}"
   resource_group_name           = "${azurerm_resource_group.rg.name}"
-  storage_account_name          = "${azurerm_storage_account.state.name}"
+  storage_account_name          = "${azurerm_storage_account.state[0].name}"
   location                      = "${var.location}"
 
   tags = ${jsonencode(var.tags != null ? var.tags : {})}

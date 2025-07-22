@@ -37,7 +37,13 @@ output "user_assigned_identity_principal_id" {
 }
 
 output "storage_account_id" {
-  value = azurerm_storage_account.state.id
+  value       = var.deploy_storage ? azurerm_storage_account.state[0].id : null
+  description = "Resource Id of the deployed storage account (if any"
+}
+
+output "storage_account_name" {
+  value       = var.deploy_storage ? azurerm_storage_account.state[0].name : null
+  description = "Name of the deployed storage account (if any"
 }
 
 output "tenant_id" {
@@ -50,10 +56,6 @@ output "subscription_id" {
 
 output "resource_group_name" {
   value = azurerm_resource_group.rg.name
-}
-
-output "storage_account_name" {
-  value = azurerm_storage_account.state.name
 }
 
 output "federated_credential_subject" {
