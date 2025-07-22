@@ -167,7 +167,7 @@ resource "github_actions_secret" "known_hosts" {
 
 //Github Repository Files
 resource "github_repository_file" "tfvars" {
-  count                 = var.deploy_storage ? 1 : 0
+  count               = var.deploy_storage ? 1 : 0
   repository          = var.cd_github_repo_name
   branch              = "main"
   file                = "terraform/bootstrap.auto.tfvars"

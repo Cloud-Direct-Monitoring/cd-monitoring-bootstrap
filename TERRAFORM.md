@@ -51,6 +51,9 @@ No modules.
 | <a name="input_customer_subscription_name"></a> [customer\_subscription\_name](#input\_customer\_subscription\_name) | Cosmetic name for the Azure subscription. For Azure Landing Zone, the Management subscription is recommended. | `string` | `"Management"` | no |
 | <a name="input_customer_tenant_id"></a> [customer\_tenant\_id](#input\_customer\_tenant\_id) | The customer's Entra ID tenant GUID. | `string` | n/a | yes |
 | <a name="input_customer_tenant_name"></a> [customer\_tenant\_name](#input\_customer\_tenant\_name) | Cosmetic name for the customer tenant. | `string` | n/a | yes |
+| <a name="input_deploy_policy_identity"></a> [deploy\_policy\_identity](#input\_deploy\_policy\_identity) | Whether to deploy the policy managed identity | `bool` | `true` | no |
+| <a name="input_deploy_storage"></a> [deploy\_storage](#input\_deploy\_storage) | Whether to deploy the storage account for Terraform state | `bool` | `true` | no |
+| <a name="input_deploy_vm_identity"></a> [deploy\_vm\_identity](#input\_deploy\_vm\_identity) | Whether to deploy the VM managed identity | `bool` | `true` | no |
 | <a name="input_location"></a> [location](#input\_location) | Specify the Azure region to deploy into. | `string` | `"UK South"` | no |
 | <a name="input_rbac"></a> [rbac](#input\_rbac) | Specify whether to create the RBAC roles. Set to false if terraform is not running with a privileged account. | `bool` | `true` | no |
 | <a name="input_region_short"></a> [region\_short](#input\_region\_short) | n/a | `string` | n/a | yes |
@@ -69,8 +72,8 @@ No modules.
 | <a name="output_rbac_commands"></a> [rbac\_commands](#output\_rbac\_commands) | n/a |
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | n/a |
 | <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | n/a |
-| <a name="output_storage_account_id"></a> [storage\_account\_id](#output\_storage\_account\_id) | n/a |
-| <a name="output_storage_account_name"></a> [storage\_account\_name](#output\_storage\_account\_name) | n/a |
+| <a name="output_storage_account_id"></a> [storage\_account\_id](#output\_storage\_account\_id) | Resource Id of the deployed storage account (if any |
+| <a name="output_storage_account_name"></a> [storage\_account\_name](#output\_storage\_account\_name) | Name of the deployed storage account (if any |
 | <a name="output_subscription_id"></a> [subscription\_id](#output\_subscription\_id) | n/a |
 | <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | n/a |
 | <a name="output_user_assigned_identity_client_id"></a> [user\_assigned\_identity\_client\_id](#output\_user\_assigned\_identity\_client\_id) | n/a |
