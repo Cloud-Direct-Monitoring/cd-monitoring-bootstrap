@@ -11,7 +11,7 @@ locals {
     "UK West"  = "ukwest"
   }
 
-  region_short = try(local.region_map[var.location], replace(lower(var.location), " ", ""))
+  region_short = var.region_short != null ? var.region_short : try(local.region_map[var.location], replace(lower(var.location), " ", ""))
 
   workspace_resource_group_id = join("/", slice(split("/", var.workspace_id), 0, 5))
 }

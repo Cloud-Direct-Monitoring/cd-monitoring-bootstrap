@@ -87,6 +87,10 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "region_short" {
+  type = string
+}
+
 variable "storage_account_name" {
   description = "Display name of the storage account for the Terraform state"
   default     = null
