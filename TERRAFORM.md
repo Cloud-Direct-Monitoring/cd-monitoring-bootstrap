@@ -53,6 +53,7 @@ No modules.
 | <a name="input_customer_tenant_name"></a> [customer\_tenant\_name](#input\_customer\_tenant\_name) | Cosmetic name for the customer tenant. | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Specify the Azure region to deploy into. | `string` | `"UK South"` | no |
 | <a name="input_rbac"></a> [rbac](#input\_rbac) | Specify whether to create the RBAC roles. Set to false if terraform is not running with a privileged account. | `bool` | `true` | no |
+| <a name="input_region_short"></a> [region\_short](#input\_region\_short) | n/a | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Display name for the resource group | `string` | `null` | no |
 | <a name="input_storage_account_name"></a> [storage\_account\_name](#input\_storage\_account\_name) | Display name of the storage account for the Terraform state | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Specify a map if tags to apply to the resources. | `map(string)` | `null` | no |
