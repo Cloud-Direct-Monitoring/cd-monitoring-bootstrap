@@ -1,4 +1,8 @@
-# 0.1.0 (2025-07-22)
+## [0.1.1](https://github.com/Cloud-Direct-Monitoring/cd-monitoring-bootstrap/compare/v0.1.0...v0.1.1) (2025-09-19)
+
+
+
+# [0.1.0](https://github.com/Cloud-Direct-Monitoring/cd-monitoring-bootstrap/compare/d990c8b791bebd1a38bdf971798105167806b6ec...v0.1.0) (2025-07-22)
 
 
 ### Bug Fixes
