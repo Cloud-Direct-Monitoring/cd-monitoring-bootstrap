@@ -1,10 +1,16 @@
 # cd-monitoring-bootstrap
 
-Professional Services repo to bootstrap a customer environment for the deployment of monitoring resources.
+Repository to bootstrap a customer environment for the deployment of monitoring resources.
 
 ## Prereqs
 
-Managed Services will provide a set of info for the bootstrap process:
+You will need to install the Azure CLI and the Terraform tooling: 
+
+[Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
+
+[Terraform](https://developer.hashicorp.com/terraform/install)
+
+The onboarding engineer will provide a set of info for the bootstrap process:
 
 
 * client repo name
