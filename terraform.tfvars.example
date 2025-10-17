@@ -3,6 +3,7 @@ customer_tenant_name       = ""
 customer_subscription_id   = ""
 customer_subscription_name = ""
 location                   = "UK South"
+region_short               = "uks"
 workspace_id               = ""
 
 rbac = true
