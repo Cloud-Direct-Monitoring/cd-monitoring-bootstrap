@@ -10,16 +10,6 @@ variable "customer_tenant_id" {
   }
 }
 
-variable "customer_tenant_name" {
-  description = "Cosmetic name for the customer tenant."
-  type        = string
-
-  validation {
-    condition     = length(var.customer_tenant_name) > 0
-    error_message = "The customer_tenant_name must be a valid string."
-  }
-}
-
 variable "customer_subscription_id" {
   description = "Azure subscription GUID for the deployed resources."
   type        = string
@@ -33,7 +23,7 @@ variable "customer_subscription_id" {
 variable "deploy_storage" {
   description = "Whether to deploy the storage account for Terraform state"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "deploy_policy_identity" {
@@ -46,17 +36,6 @@ variable "deploy_vm_identity" {
   description = "Whether to deploy the VM managed identity"
   type        = bool
   default     = true
-}
-
-variable "customer_subscription_name" {
-  description = "Cosmetic name for the Azure subscription. For Azure Landing Zone, the Management subscription is recommended."
-  default     = "Management"
-  type        = string
-
-  validation {
-    condition     = length(var.customer_subscription_name) > 0
-    error_message = "The customer_subscription_name must be a valid string."
-  }
 }
 
 variable "cd_github_repo_name" {
@@ -72,6 +51,21 @@ variable "cd_github_pat_value" {
     condition     = length(var.cd_github_pat_value) > 0
     error_message = "The cd_github_pat_value must be a valid string."
 
+  }
+}
+
+variable "environment" {
+  description = "The deployment environment, e.g., 'prod', 'test', 'dev'."
+  type        = string
+}
+
+variable "monitoring_selection" {
+  description = "Choose which target to render: 'azure', 'avd', or 'data'."
+  type        = string
+
+  validation {
+    condition     = contains(["azure", "avd", "data"], lower(var.monitoring_selection))
+    error_message = "monitoring_selection must be one of: azure, avd, data."
   }
 }
 

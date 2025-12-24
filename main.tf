@@ -1,23 +1,4 @@
-data "azurerm_client_config" "current" {}
-
-locals {
-  uniq = substr(sha1(azurerm_resource_group.rg.id), 0, 8)
-
-  resource_group_name  = var.resource_group_name != null ? var.resource_group_name : "rg-cdmonitoring-prod-${local.region_short}-001"
-  storage_account_name = var.storage_account_name != null ? var.storage_account_name : "cdmonitoring${local.uniq}"
-
-  region_map = {
-    "UK South" = "uksouth"
-    "UK West"  = "ukwest"
-  }
-
-  region_short = var.region_short != null ? var.region_short : try(local.region_map[var.location], replace(lower(var.location), " ", ""))
-
-  workspace_resource_group_id = join("/", slice(split("/", var.workspace_id), 0, 5))
-}
-
 // Resource group and storage account
-
 resource "azurerm_resource_group" "rg" {
   name     = local.resource_group_name
   location = var.location
@@ -58,7 +39,7 @@ resource "azurerm_storage_account" "state" {
 resource "azurerm_storage_container" "state" {
   count                 = var.deploy_storage ? 1 : 0
   name                  = "cdmonitoring-tfstate"
-  storage_account_name  = azurerm_storage_account.state[0].name
+  storage_account_id    = azurerm_storage_account.state[0].id
   container_access_type = "private"
 
   depends_on = [
@@ -70,10 +51,11 @@ resource "azurerm_storage_container" "state" {
 
 // Core managed identity used to create the monitoring resources for the lifecycle of the service.
 resource "azurerm_user_assigned_identity" "github" {
-  name                = "id-cdmonitoring-prod-${local.region_short}-001"
+  name                = local.mi_core_name
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 }
+
 
 resource "azurerm_federated_identity_credential" "github" {
   name                = replace(var.cd_github_repo_name, "-", "_")
@@ -85,10 +67,17 @@ resource "azurerm_federated_identity_credential" "github" {
   subject  = "repo:${var.cd_github_org_name}/${var.cd_github_repo_name}:ref:refs/heads/main"
 }
 
+// Managed Identity for Azure Resource Graph based alerts
+resource "azurerm_user_assigned_identity" "resource_graph" {
+  name                = local.mi_arg_name
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+}
+
 // For optional use in policy assignments. Better naming convention than the system generated name.
 resource "azurerm_user_assigned_identity" "policy" {
   count               = var.deploy_policy_identity ? 1 : 0
-  name                = "id-cdmonitoring-policy-prod-${local.region_short}-001"
+  name                = local.mi_policy_name
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 }
@@ -96,19 +85,18 @@ resource "azurerm_user_assigned_identity" "policy" {
 // Managed Identity assigned to VMs with no permissions for AMA Agent deployment through Policy Initiative
 resource "azurerm_user_assigned_identity" "vm" {
   count               = var.deploy_vm_identity ? 1 : 0
-  name                = "id-cdmonitoring-vm-prod-${local.region_short}-001"
+  name                = local.mi_vm_name
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 }
 
 // RBAC role assignments
-
 resource "azurerm_role_assignment" "resource_group" {
   for_each = toset(
     var.rbac ? (
       var.deploy_storage ?
-      ["Azure Deployment Stack Owner", "Monitoring Contributor", "Storage Blob Data Contributor"] :
-      ["Azure Deployment Stack Owner", "Monitoring Contributor"]
+      ["Azure Deployment Stack Owner", "Monitoring Contributor", "Managed Identity Operator", "Storage Blob Data Contributor"] :
+      ["Azure Deployment Stack Owner", "Monitoring Contributor", "Managed Identity Operator"]
     ) : []
   )
 
@@ -184,12 +172,13 @@ resource "github_repository_file" "tfvars" {
 }
 
 resource "github_repository_file" "bicep_params" {
+  count               = local.create_bicep_params ? 1 : 0
   repository          = var.cd_github_repo_name
   branch              = "main"
-  file                = "parameters/coreMonitoringComponents.bicepparam"
+  file                = local.bicep_file_map[local.target]
   overwrite_on_create = true
 
-  content = templatefile("${path.module}/templates/coreMonitoringComponents.bicepparam.tftpl", {
+  content = templatefile(local.bicep_tpl_map[local.target], {
     location                      = var.location,
     workspace_resource_group_name = split("/", var.workspace_id)[4],
     workspace_name                = split("/", var.workspace_id)[8],
