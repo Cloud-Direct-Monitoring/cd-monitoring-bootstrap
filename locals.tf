@@ -36,7 +36,7 @@ locals {
   target_segment = local.target == "azure" ? "" : "${local.target}-"
 
   # Resource Group name
-  resource_group_name = var.resource_group_name != null ? var.resource_group_name :"rg-cdmonitoring-${local.target_segment}${var.environment}-${local.region_short}-001"
+  resource_group_name = var.resource_group_name != null ? var.resource_group_name : "rg-cdmonitoring-${local.target_segment}${var.environment}-${local.region_short}-001"
 
   # Core MI
   mi_core_name = "id-cdmonitoring-${local.target_segment}${var.environment}-${local.region_short}-001"

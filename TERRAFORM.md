@@ -3,6 +3,7 @@
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.14.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 4.0.0 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | >= 6.0 |
 
@@ -10,8 +11,8 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.0.1 |
-| <a name="provider_github"></a> [github](#provider\_github) | 6.2.3 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.57.0 |
+| <a name="provider_github"></a> [github](#provider\_github) | 6.9.0 |
 
 ## Modules
 
@@ -29,6 +30,7 @@ No modules.
 | [azurerm_storage_container.state](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_user_assigned_identity.github](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_user_assigned_identity.policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
+| [azurerm_user_assigned_identity.resource_graph](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_user_assigned_identity.vm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [github_actions_secret.app_id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
 | [github_actions_secret.client_id](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
@@ -38,7 +40,6 @@ No modules.
 | [github_actions_variable.github](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_variable) | resource |
 | [github_repository_file.bicep_params](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_file) | resource |
 | [github_repository_file.tfvars](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_file) | resource |
-| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 
 ## Inputs
 
@@ -48,13 +49,13 @@ No modules.
 | <a name="input_cd_github_pat_value"></a> [cd\_github\_pat\_value](#input\_cd\_github\_pat\_value) | Value of the GitHub fine grained personal access token | `string` | n/a | yes |
 | <a name="input_cd_github_repo_name"></a> [cd\_github\_repo\_name](#input\_cd\_github\_repo\_name) | The name of the customer GitHub repository. | `string` | n/a | yes |
 | <a name="input_customer_subscription_id"></a> [customer\_subscription\_id](#input\_customer\_subscription\_id) | Azure subscription GUID for the deployed resources. | `string` | n/a | yes |
-| <a name="input_customer_subscription_name"></a> [customer\_subscription\_name](#input\_customer\_subscription\_name) | Cosmetic name for the Azure subscription. For Azure Landing Zone, the Management subscription is recommended. | `string` | `"Management"` | no |
 | <a name="input_customer_tenant_id"></a> [customer\_tenant\_id](#input\_customer\_tenant\_id) | The customer's Entra ID tenant GUID. | `string` | n/a | yes |
-| <a name="input_customer_tenant_name"></a> [customer\_tenant\_name](#input\_customer\_tenant\_name) | Cosmetic name for the customer tenant. | `string` | n/a | yes |
 | <a name="input_deploy_policy_identity"></a> [deploy\_policy\_identity](#input\_deploy\_policy\_identity) | Whether to deploy the policy managed identity | `bool` | `true` | no |
-| <a name="input_deploy_storage"></a> [deploy\_storage](#input\_deploy\_storage) | Whether to deploy the storage account for Terraform state | `bool` | `true` | no |
+| <a name="input_deploy_storage"></a> [deploy\_storage](#input\_deploy\_storage) | Whether to deploy the storage account for Terraform state | `bool` | `false` | no |
 | <a name="input_deploy_vm_identity"></a> [deploy\_vm\_identity](#input\_deploy\_vm\_identity) | Whether to deploy the VM managed identity | `bool` | `true` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | The deployment environment, e.g., 'prod', 'test', 'dev'. | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Specify the Azure region to deploy into. | `string` | `"UK South"` | no |
+| <a name="input_monitoring_selection"></a> [monitoring\_selection](#input\_monitoring\_selection) | Choose which target to render: 'azure', 'avd', or 'data'. | `string` | n/a | yes |
 | <a name="input_rbac"></a> [rbac](#input\_rbac) | Specify whether to create the RBAC roles. Set to false if terraform is not running with a privileged account. | `bool` | `true` | no |
 | <a name="input_region_short"></a> [region\_short](#input\_region\_short) | n/a | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Display name for the resource group | `string` | `null` | no |
