@@ -29,8 +29,6 @@ locals {
 
   region_short = var.region_short != null ? var.region_short : try(local.region_map[var.location], replace(lower(var.location), " ", ""))
 
-  workspace_resource_group_id = join("/", slice(split("/", var.workspace_id), 0, 5))
-
   # normalize selector
   target = lower(var.monitoring_selection)
 
@@ -38,7 +36,7 @@ locals {
   target_segment = local.target == "azure" ? "" : "${local.target}-"
 
   # Resource Group name
-  resource_group_name = "rg-cdmonitoring-${local.target_segment}${var.environment}-${local.region_short}-001"
+  resource_group_name = var.resource_group_name != null ? var.resource_group_name :"rg-cdmonitoring-${local.target_segment}${var.environment}-${local.region_short}-001"
 
   # Core MI
   mi_core_name = "id-cdmonitoring-${local.target_segment}${var.environment}-${local.region_short}-001"
