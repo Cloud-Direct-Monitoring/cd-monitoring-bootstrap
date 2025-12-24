@@ -1,0 +1,20 @@
+customer_tenant_id         = ""
+customer_subscription_id   = ""
+location                   = "UK South"
+region_short               = "uks"
+workspace_id               = ""
+
+rbac = true
+
+monitoring_selection = "azure"
+
+environment = "test"
+
+cd_github_repo_name = ""
+cd_github_pat_value = ""
+
+tags = {
+  service     = "Terraform"
+  description = "Monitoring"
+  org         = "Cloud Direct"
+}
