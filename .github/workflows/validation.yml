@@ -105,7 +105,7 @@ jobs:
       run: terraform fmt
 
     - name: Setup TFLint 🖌️
-      uses: terraform-linters/setup-tflint@8093687ecc9dcbfa88d07c103ad4176739a7287e # v4
+      uses: terraform-linters/setup-tflint@4cb9feea73331a35b422df102992a03a44a3bb33 # v6
       with:
         tflint_version: latest
         tflint_wrapper: true
