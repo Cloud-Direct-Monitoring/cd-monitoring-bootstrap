@@ -1,12 +1,14 @@
 customer_tenant_id         = ""
-customer_tenant_name       = ""
 customer_subscription_id   = ""
-customer_subscription_name = ""
 location                   = "UK South"
 region_short               = "uks"
 workspace_id               = ""
 
 rbac = true
+
+monitoring_selection = "azure"
+
+environment = "test"
 
 cd_github_repo_name = ""
 cd_github_pat_value = ""

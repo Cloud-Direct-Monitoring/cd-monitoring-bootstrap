@@ -1,0 +1,55 @@
+using './avdMonitoringComponents.bicep'
+
+// --------- Parameters with required changes --------- //
+
+// Global
+param location = '${location}'
+
+// Workspace
+
+//// Make sure the workspace is unique (in the event a customer has other managed services offerings with us)
+param workspaceName = '${workspace_name}'
+param lawResourceGroupName = '${workspace_resource_group_name}'
+
+// Action Group
+param deployAvdActionGroup = true
+param configureActionGroupEmail = false
+param actionGroupEmail = ''
+param configureActionGroupServiceUri = true
+
+// AVD IaaS
+param deployAvdDcr = true
+param avdDcrIntervalSeconds = 60
+param deployIaaSAvdAlerts = true
+param iaasAvdHighCpuPercentageThreshold = 90
+param iaasAvdHighMemoryPercentageThreshold = 90
+param iaasAvdDiskSpaceLeftPercentageThreshold = 10
+
+// Azure Files
+param deployAzureFilesAlerts = true
+param azureFilesUsageThreshold = 90
+param automationAccountName = ''
+
+// --------- Parameters --------- //
+
+// Action Group
+param avdActionGroupTags = {
+  Owner : 'Cloud Direct'
+  Purpose : 'AVD Monitoring'
+}
+
+param avdActionGroupName = 'CD-AVD-Alert-AG'
+param avdActionGroupDisplayName = 'AVD-ALERT-AG'
+param actionGroupWebHookUri = '${action_group_webhook_uri}'
+
+// AVD IaaS
+param avdDcrName = 'cd-avd-dcr-01'
+param avdDcrTags = {
+  Owner : 'Cloud Direct'
+}
+
+param iaasAvdAlertRuleTags = {
+  Owner : 'Cloud Direct'
+  CDAlertCategory : 'AVD IaaS'
+  CDProductID : 'CD-AVD-MAN'
+}
