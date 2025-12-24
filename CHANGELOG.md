@@ -1,3 +1,13 @@
+## [0.1.7](https://github.com/Cloud-Direct-Monitoring/cd-monitoring-bootstrap/compare/v0.1.6...v0.1.7) (2025-12-24)
+
+
+### Bug Fixes
+
+* add example Terraform variables configuration ([bfbd22b](https://github.com/Cloud-Direct-Monitoring/cd-monitoring-bootstrap/commit/bfbd22b2b7822f02d58acaee916042aef43bf208))
+* update resource group name logic and remove unused variable ([0049943](https://github.com/Cloud-Direct-Monitoring/cd-monitoring-bootstrap/commit/00499432c0339195fb783c28533ce4cf432a0be2))
+
+
+
 ## [0.1.6](https://github.com/Cloud-Direct-Monitoring/cd-monitoring-bootstrap/compare/v0.1.5...v0.1.6) (2025-12-24)
 
 
