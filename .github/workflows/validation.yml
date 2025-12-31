@@ -119,7 +119,7 @@ jobs:
 
     - name: Generate Terraform Docs 📜
       id: tfdocs
-      uses: terraform-docs/gh-actions@e47bfa196e79fa50987ef391be236d9d97b0c786 # v1.2.0
+      uses: terraform-docs/gh-actions@6de6da0cefcc6b4b7a5cbea4d79d97060733093c # v1.4.1
       with:
         find-dir: .
         output-file: TERRAFORM.md
