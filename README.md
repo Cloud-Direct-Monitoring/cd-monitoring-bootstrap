@@ -1,10 +1,19 @@
+<p>
+<img src="./src/img/cloud_direct_logo.svg" alt="cloud-direct-logo" width="300" height="auto">
+</p>
+
+[![Validation Workflow](https://github.com/Cloud-Direct-Monitoring/cd-monitoring-bootstrap/actions/workflows/validation.yml/badge.svg)](https://github.com/Cloud-Direct-Monitoring/cd-monitoring-bootstrap/actions/workflows/validation.yml)
+[![Release Workflow](https://github.com/Cloud-Direct-Monitoring/cd-monitoring-bootstrap/actions/workflows/release.yml/badge.svg)](https://github.com/Cloud-Direct-Monitoring/cd-monitoring-bootstrap/actions/workflows/release.yml)
+
+[![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovate)](https://github.com/renovatebot/renovate)
+
 # cd-monitoring-bootstrap
 
 Repository to bootstrap a customer environment for the deployment of monitoring resources.
 
 ## Prereqs
 
-You will need to install the Azure CLI and the Terraform tooling: 
+You will need to install the Azure CLI and the Terraform tooling:
 
 [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
 
